@@ -4,3 +4,53 @@
     <h4 class="main"><a ui-sref="login">Login</a> to continue.</h1>
   </div>
 </header>
+
+<div id="body" ng-show="$ctrl.isLoggedIn()">
+
+  <h2 class="col-lg-12">Compose an Email</h2>
+
+  <form name="form" class="form" ng-submit="$ctrl.sendEmail(form)">
+
+    <div class="col-lg-12 form-group" >
+      <h4 class="col-lg-1">From:</h4>
+      <input type="email" name="from_emails" class="col-lg-6 field" ng-model="$ctrl.content.from">
+    </div>
+
+    <div class="col-lg-12 form-group">
+      <h4 class="col-lg-1">To:</h4>
+      <input type="email" name="to_emails" class="col-lg-6 field" ng-model="$ctrl.content.to">
+    </div>
+
+    <div class="col-lg-12 form-group">
+      <h4 class="col-lg-1">Subject:</h4>
+      <input type="text" name="subject" class="col-lg-6 field" ng-model="$ctrl.content.subject">
+    </div>
+
+    <div class="col-lg-12 form-group">
+      <div class="text_header">
+        <h4 class="col-lg-9">Message:</h4>
+        <button class="col-lg-1" ng-click="$ctrl.changeBold()"><b>B</b></button>
+        <button class="col-lg-1" ng-click="$ctrl.changeItalics()"><i>I</i></button>
+        <button class="col-lg-1" ng-click="$ctrl.changeUnderLine()"><u>U</u></button>
+      </div>
+      <textarea type="text" name="message" class="col-lg-12 field" id="message" ng-model="$ctrl.content.message" ng-change="$ctrl.setPreview()">
+      </textarea>
+    </div>
+
+    <div class="text_header">
+      <h4 class="col-lg-12">Preview:</h4>
+      <p ng-model="$ctrl.content.preview">{{$ctrl.content.preview}}</p>      
+    </div>
+
+    <div class="col-lg-12 form-group">
+      <h4 class="col-lg-1">API key:</h4>
+      <input type="text" name="key" class="col-lg-6 field" ng-model="$ctrl.content.key">
+    </div>
+
+    <div class="col-lg-12 form-group">
+      <button class="btn btn-primary" type="submit">Send</button>
+    </div>
+    
+  </form>
+  
+</div>

@@ -1,35 +1,74 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './main.routes';
+/*import sendgrid from 'sendgrid';
+*/export class MainController {
 
-export class MainController {
+content={
+  from: '',
+  to: '',
+  subject: '',
+  message: '',
+  key: '',
+  showPreview: false,
+  preview: ''
+};
 
-  awesomeThings = [];
-  newThing = '';
+properties={
+  input: '',
+  output: '',
+  current: '',
+  bold: false,
+  italics: false,
+  underline: false
+};
 
   /*@ngInject*/
-  constructor($http) {
+  constructor($http, Auth) {
     this.$http = $http;
+    this.isLoggedIn = Auth.isLoggedInSync;
+    this.isAdmin = Auth.isAdminSync;
+    this.getCurrentUser = Auth.getCurrentUserSync;
   }
 
   $onInit() {
-    this.$http.get('/api/things')
-      .then(response => {
-        this.awesomeThings = response.data;
-      });
+    
   }
 
-  addThing() {
-    if(this.newThing) {
-      this.$http.post('/api/things', {
-        name: this.newThing
-      });
-      this.newThing = '';
+  changeBold(){
+    this.properties.bold = !this.properties.bold;
+  }
+
+  changeItalics(){
+    this.properties.italics = !this.properties.italics;
+  }
+
+  changeUnderLine(){
+    this.properties.underline = !this.properties.underline;
+  }
+
+  setPreview(){
+    this.properties.current = this.content.message.charAt(this.content.message.length-1);
+    
+    if(this.properties.bold){
+      this.properties.current = this.properties.current.bold();
     }
+    
+    if(this.properties.italics){
+      this.properties.current = this.properties.current.italics();
+    }
+    
+    this.content.preview = this.content.preview + this.properties.current;
+    console.log(this.content.preview);
   }
 
-  deleteThing(thing) {
-    this.$http.delete(`/api/things/${thing._id}`);
+
+  sendEmail(){
+    console.log(this.content.from);
+    console.log(this.content.to);
+    console.log(this.content.subject);
+    console.log(this.content.message);
+    console.log(this.content.key);
   }
 }
 
